@@ -4,14 +4,18 @@
 #
 # $Log:$
 #
-CC=  gcc # gcc or g++
+CC= gcc # gcc or g++
 
-CFLAGS=-m32 -g -Wall -DNORMALUNIX -DLINUX -DSDL # -DUSEASM 
-LDFLAGS=-L/usr/lib/i386-linux-gnu/
-LIBS=-lSDL #-lnsl -lm
+LIBS= -L/opt/homebrew/opt/sdl12-compat/lib \
+	  -lSDL
+
+INCLUDES=-I/opt/homebrew/opt/sdl12-compat/include \
+		-I/usr/local/include
+
+CFLAGS=-m32 -g -c -w -DSDL
 
 # subdirectory for objects
-O=linux
+O=macos
 
 # not too sophisticated dependency
 OBJS=				\
@@ -81,14 +85,14 @@ all:	 $(O)/sdl_doom
 
 clean:
 	rm -f *.o *~ *.flc
-	rm -f linux/*
+	rm -f $(O)/*
 
 $(O)/sdl_doom:	$(OBJS) $(O)/i_main.o
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(O)/i_main.o \
-	-o $(O)/sdl_doom $(LIBS)
+	$(CC) $(CFLAGS) $(OBJS) $(O)/i_main.o \
+	-o $(O)/sdl_doom $(LIBS) $(INCLUDES)
 
 $(O)/%.o:	%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 #############################################################
 #

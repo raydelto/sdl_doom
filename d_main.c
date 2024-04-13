@@ -40,6 +40,11 @@ static const char rcsid[] = "$Id: d_main.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
 #include <fcntl.h>
 #endif
 
+#ifdef __APPLE__
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#endif
 
 #include "doomdef.h"
 #include "doomstat.h"
